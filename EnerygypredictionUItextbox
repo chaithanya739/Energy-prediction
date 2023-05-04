@@ -1,0 +1,24 @@
+import gradio as gr
+import joblib
+import datasets
+
+df_demo = df_with_loc_season_en.drop('PolyPwr', axis=1)
+print(X.columns)
+print(X_test[1])
+
+
+output = gr.outputs.Textbox()
+
+
+
+def predict(Latitude,Humidity, AmbientTemp, Wind_Speed, Visibility,Cloud_Ceiling,Location_CampMurray, Location_Grissom, Location_HillWeber,Location_JDMT, Location_Kahului, Location_MNANG,Location_Malmstrom, Location_MarchAFB, Location_Offutt,Location_Peterson, Location_Travis, Location_USAFA,Season_Spring, Season_Summer, Season_Winter, delta_hr,sine_mon, cos_mon, sine_hr, cos_hr):
+    
+    x = np.array([Latitude,Humidity, AmbientTemp, Wind_Speed, Visibility,Cloud_Ceiling,Location_CampMurray, Location_Grissom, Location_HillWeber,Location_JDMT, Location_Kahului, Location_MNANG,Location_Malmstrom, Location_MarchAFB, Location_Offutt,Location_Peterson, Location_Travis, Location_USAFA,Season_Spring, Season_Summer, Season_Winter, delta_hr,sine_mon, cos_mon, sine_hr, cos_hr])
+    print(x)
+    #scalar1 = StandardScaler()
+    #scalar1.fit(x)
+    #x = scalar1.transform(x)
+    prediction = GS2.predict(x.reshape(1,-1))
+    return prediction
+
+gr.Interface(fn=predict,inputs=['number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number'],outputs=output,description="Energy Prediction").launch()
