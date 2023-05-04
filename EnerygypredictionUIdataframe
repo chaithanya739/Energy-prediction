@@ -1,0 +1,29 @@
+import gradio as gr
+import joblib
+import datasets
+
+df_demo = df_with_loc_season_en.drop('PolyPwr', axis=1)
+print(X.columns)
+print(X_test[1:3])
+
+
+output = gr.outputs.Textbox()
+
+inputs = gr.DataFrame(headers=['Latitude', 'Humidity', 'AmbientTemp', 'Wind.Speed', 'Visibility',
+       'Cloud.Ceiling', 'Location_Camp Murray', 'Location_Grissom',
+       'Location_Hill Weber', 'Location_JDMT', 'Location_Kahului',
+       'Location_MNANG', 'Location_Malmstrom', 'Location_March AFB',
+       'Location_Offutt', 'Location_Peterson', 'Location_Travis',
+       'Location_USAFA', 'Season_Spring', 'Season_Summer', 'Season_Winter',
+       'delta_hr', 'sine_mon', 'cos_mon', 'sine_hr', 'cos_hr'],datatype=['number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number','number'],row_count=1,col_count=(26,"fixed"))
+
+def predict(inputs):
+    
+    #x = gr.array([Latitude,Humidity, AmbientTemp, Wind_Speed, Visibility,Cloud_Ceiling,Location_CampMurray, Location_Grissom, Location_HillWeber,Location_JDMT, Location_Kahului, Location_MNANG,Location_Malmstrom, Location_MarchAFB, Location_Offutt,Location_Peterson, Location_Travis, Location_USAFA,Season_Spring, Season_Summer, Season_Winter, delta_hr,sine_mon, cos_mon, sine_hr, cos_hr])
+    print(inputs.shape)
+    inputs = scalar.transform(inputs)
+    print(inputs.reshape(-1,26))
+    prediction = GS2.predict(inputs.reshape(-1,26))
+    return prediction
+
+gr.Interface(fn=predict,inputs=inputs,outputs=output,description="Energy Prediction").launch()
